@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260" width="100%" height="100%">
+  <defs>
+    <radialGradient id="globeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4facfe" stop-opacity="0.9"/>
+      <stop offset="60%" stop-color="#00f2fe" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#0984e3" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#70a6ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="130" cy="130" r="120" fill="url(#globeGlow)" />
+
+  <!-- Outer Orbit Rings -->
+  <ellipse cx="130" cy="130" rx="115" ry="40" fill="none" stroke="#60a5fa" stroke-width="1.2" opacity="0.6" transform="rotate(-25 130 130)" stroke-dasharray="4, 3" />
+  <ellipse cx="130" cy="130" rx="115" ry="40" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.6" transform="rotate(35 130 130)" stroke-dasharray="5, 3" />
+
+  <!-- Globe Sphere -->
+  <circle cx="130" cy="130" r="75" fill="#034b94" stroke="#60a5fa" stroke-width="1.8" />
+  
+  <!-- Latitude Lines -->
+  <ellipse cx="130" cy="130" rx="75" ry="25" fill="none" stroke="url(#gridGrad)" stroke-width="1" opacity="0.5" />
+  <ellipse cx="130" cy="130" rx="75" ry="50" fill="none" stroke="url(#gridGrad)" stroke-width="1" opacity="0.5" />
+  <line x1="55" y1="130" x2="205" y2="130" stroke="url(#gridGrad)" stroke-width="1.2" opacity="0.7" />
+
+  <!-- Longitude Lines -->
+  <ellipse cx="130" cy="130" rx="28" ry="75" fill="none" stroke="url(#gridGrad)" stroke-width="1" opacity="0.5" />
+  <ellipse cx="130" cy="130" rx="55" ry="75" fill="none" stroke="url(#gridGrad)" stroke-width="1" opacity="0.5" />
+  <line x1="130" y1="55" x2="130" y2="205" stroke="url(#gridGrad)" stroke-width="1.2" opacity="0.7" />
+
+  <!-- Glowing Particles / Nodes -->
+  <circle cx="110" cy="115" r="3" fill="#ffffff" filter="drop-shadow(0 0 4px #00f2fe)" />
+  <circle cx="155" cy="105" r="2.5" fill="#ffffff" filter="drop-shadow(0 0 4px #00f2fe)" />
+  <circle cx="140" cy="148" r="3" fill="#ffffff" filter="drop-shadow(0 0 4px #00f2fe)" />
+  <circle cx="100" cy="142" r="2.5" fill="#ffffff" filter="drop-shadow(0 0 4px #00f2fe)" />
+  <circle cx="165" cy="132" r="2" fill="#ffffff" filter="drop-shadow(0 0 4px #00f2fe)" />
+
+  <!-- Connecting Node Lines -->
+  <path d="M 110 115 L 155 105 L 165 132 L 140 148 L 100 142 Z" fill="none" stroke="#93c5fd" stroke-width="0.8" opacity="0.8" />
+
+  <!-- Academic Cap in Orbit -->
+  <g transform="translate(130, 85) scale(0.7) translate(-25, -20)">
+    <polygon points="25,5 45,15 25,25 5,15" fill="#ffffff" />
+    <path d="M 12 19 L 12 28 C 12 33, 38 33, 38 28 L 38 19" fill="#e2e8f0" opacity="0.9" />
+    <line x1="43" y1="15" x2="46" y2="26" stroke="#fbbf24" stroke-width="2" />
+    <circle cx="46" cy="27" r="2.5" fill="#fbbf24" />
+  </g>
+</svg>
