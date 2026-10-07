@@ -1,0 +1,80 @@
+export const INSTITUTIONS_DATA = [
+  {
+    code: 'NCTMS-TN-104',
+    name: 'National Academy of Technical & Computer Science',
+    city: 'Chennai',
+    state: 'Tamil Nadu',
+    address: '42, Mount Road, Guindy, Chennai - 600032',
+    category: 'Technical College & IT Academy',
+    contact: '+91 44 2235 8901',
+    email: 'chennai.center@nctms.in',
+    status: 'Active Affiliation (2026-2027)',
+    rating: '4.8 ★★★★★',
+    coursesOffered: ['Diploma in Computer Science & Engineering', 'PGDM', 'AI & Data Science', 'Digital Marketing']
+  },
+  {
+    code: 'NCTMS-KA-212',
+    name: 'Apex Institute of Management & Vocational Studies',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    address: '18/4, 100 Feet Road, HAL 2nd Stage, Indiranagar, Bengaluru - 560038',
+    category: 'Research Academy & VTP',
+    contact: '+91 80 4125 7762',
+    email: 'bengaluru.apex@nctms.in',
+    status: 'Active Affiliation (2026-2027)',
+    rating: '4.9 ★★★★★',
+    coursesOffered: ['PGDM', 'Hospital Management', 'Digital Marketing', 'Data Analytics']
+  },
+  {
+    code: 'NCTMS-KL-308',
+    name: 'St. Jude Institute of Allied Healthcare Sciences',
+    city: 'Kochi',
+    state: 'Kerala',
+    address: 'Near Medical Trust Hospital, MG Road, Ernakulam, Kochi - 682016',
+    category: 'Paramedical & Healthcare Centre',
+    contact: '+91 484 238 9012',
+    email: 'kochi.stjude@nctms.in',
+    status: 'Active Affiliation (2026-2027)',
+    rating: '4.7 ★★★★★',
+    coursesOffered: ['Medical Laboratory Technology', 'Hospital & Healthcare Management', 'Radiology Technology']
+  },
+  {
+    code: 'NCTMS-MH-450',
+    name: 'Pioneer Industrial Training Institute',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    address: 'MIDC Cross Road 14, Andheri East, Mumbai - 400093',
+    category: 'ITI & Skill Development Academy',
+    contact: '+91 22 2834 5619',
+    email: 'mumbai.pioneer@nctms.in',
+    status: 'Active Affiliation (2026-2027)',
+    rating: '4.6 ★★★★★',
+    coursesOffered: ['Electrical & Electronics Engineering', 'Mechanical Tooling', 'Solar Energy Tech']
+  },
+  {
+    code: 'NCTMS-AP-512',
+    name: 'Oxford Institute of Computing & Technical Studies',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    address: 'Road No. 2, Banjara Hills, Hyderabad - 500034',
+    category: 'Computer Academy & Engineering Hub',
+    contact: '+91 40 2355 1204',
+    email: 'hyderabad.oxford@nctms.in',
+    status: 'Active Affiliation (2026-2027)',
+    rating: '4.8 ★★★★★',
+    coursesOffered: ['Diploma in Computer Science', 'AI & Data Science', 'PGDM', 'Web Technologies']
+  },
+  {
+    code: 'NCTMS-TN-102',
+    name: 'Coimbatore Technical Training Center',
+    city: 'Coimbatore',
+    state: 'Tamil Nadu',
+    address: 'Avinashi Road, Peelamedu, Coimbatore - 641004',
+    category: 'Polytechnic & Vocational Center',
+    contact: '+91 422 257 3481',
+    email: 'cbe.center@nctms.in',
+    status: 'Active Affiliation (2026-2027)',
+    rating: '4.7 ★★★★★',
+    coursesOffered: ['Electrical Engineering', 'Computer Science', 'Hospital Management']
+  }
+];

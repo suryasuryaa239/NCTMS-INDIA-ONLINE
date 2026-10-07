@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Modals({ activeModal, onClose, showToast }) {
   // State for Login Tab
@@ -229,6 +230,14 @@ export default function Modals({ activeModal, onClose, showToast }) {
               <div className="full-width">
                 <button type="submit" className="btn-primary full-btn">Submit Application & Generate Token</button>
               </div>
+              <div className="full-width" style={{ marginTop: '6px', paddingTop: '10px', borderTop: '1px solid #e2e8f0', display: 'flex', gap: '8px' }}>
+                <Link to="/courses" className="btn-secondary" style={{ flex: 1, textAlign: 'center', fontSize: '12px' }} onClick={onClose}>
+                  🎓 Browse All Courses
+                </Link>
+                <Link to="/admission" className="btn-secondary" style={{ flex: 1, textAlign: 'center', fontSize: '12px' }} onClick={onClose}>
+                  📋 Open 5-Step Wizard
+                </Link>
+              </div>
             </form>
           </div>
         </div>
@@ -404,6 +413,11 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 <p style={{ textAlign: 'center', color: '#64748b', padding: '20px' }}>No centers found matching your query.</p>
               )}
             </div>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+              <Link to="/institutions" className="btn-primary full-btn" onClick={onClose}>
+                🏫 Open Complete Affiliated Centers Directory &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       )}
@@ -438,6 +452,11 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 <span>📄 Official Name / Address Correction Form</span>
                 <button type="button" className="btn-download" onClick={() => handleDownload('Correction_Application.pdf')}>Download PDF</button>
               </div>
+            </div>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+              <Link to="/downloads" className="btn-primary full-btn" onClick={onClose}>
+                📂 Open Complete Downloads Center & Form Generator &rarr;
+              </Link>
             </div>
           </div>
         </div>
@@ -548,6 +567,11 @@ export default function Modals({ activeModal, onClose, showToast }) {
                   Download Verified Certificate
                 </button>
               </div>
+            </div>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+              <Link to="/verify" className="btn-primary full-btn" onClick={onClose}>
+                🛡️ Open Official Verification Registry & QR Scanner &rarr;
+              </Link>
             </div>
 
           </div>
