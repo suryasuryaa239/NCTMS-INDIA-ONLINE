@@ -133,6 +133,8 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 onClose();
                 if (loginTab === 'student') {
                   window.location.href = '/student/dashboard';
+                } else if (loginTab === 'institution') {
+                  window.location.href = '/institution/dashboard';
                 }
               }} 
               className="modal-form"

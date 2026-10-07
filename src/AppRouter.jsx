@@ -21,6 +21,13 @@ import StudentExamRoom from './pages/student/StudentExamRoom';
 import StudentResults from './pages/student/StudentResults';
 import StudentFees from './pages/student/StudentFees';
 
+// Institution Portal Pages
+import InstitutionDashboard from './pages/institution/InstitutionDashboard';
+import InstitutionStudents from './pages/institution/InstitutionStudents';
+import InstitutionBatches from './pages/institution/InstitutionBatches';
+import InstitutionMarksEntry from './pages/institution/InstitutionMarksEntry';
+import InstitutionProfile from './pages/institution/InstitutionProfile';
+
 export default function AppRouter() {
   return (
     <AuthProvider>
@@ -49,6 +56,14 @@ export default function AppRouter() {
           <Route path="/student/exam/take" element={<StudentExamRoom />} />
           <Route path="/student/results" element={<StudentResults />} />
           <Route path="/student/fees" element={<StudentFees />} />
+
+          {/* 4. Affiliated Institution Portal */}
+          <Route path="/institution" element={<Navigate to="/institution/dashboard" replace />} />
+          <Route path="/institution/dashboard" element={<InstitutionDashboard />} />
+          <Route path="/institution/students" element={<InstitutionStudents />} />
+          <Route path="/institution/batches" element={<InstitutionBatches />} />
+          <Route path="/institution/marks-entry" element={<InstitutionMarksEntry />} />
+          <Route path="/institution/profile" element={<InstitutionProfile />} />
 
           {/* Fallback */}
           <Route path="*" element={<App />} />
