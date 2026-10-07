@@ -221,9 +221,9 @@
 .course-card {
   background: #ffffff;
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 14px;
   box-shadow: 0 4px 14px rgba(11, 61, 131, 0.06);
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -237,12 +237,47 @@
   border-color: #93c5fd;
 }
 
+.course-card-thumb-wrap {
+  position: relative;
+  height: 160px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  background: #e2e8f0;
+}
+
+.course-card-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.course-card:hover .course-card-thumb-img {
+  transform: scale(1.05);
+}
+
+.course-thumb-overlay-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(11, 50, 107, 0.85);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+}
+
 .course-card-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .course-code-tag {
@@ -269,8 +304,16 @@
   font-size: 18px;
   font-weight: 700;
   color: #0b326b;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   line-height: 1.35;
+}
+
+.course-category-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0c57c4;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .course-description {
@@ -319,6 +362,146 @@
 .course-card-actions .btn-primary {
   flex: 1.2;
   text-align: center;
+}
+
+/* Secondary Filters Row */
+.courses-secondary-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.courses-filter-select {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 12.5px;
+  color: #334155;
+  background: #ffffff;
+  outline: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mobile-filter-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b326b;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-filter-btn {
+    display: inline-flex;
+  }
+}
+
+/* Skeleton Loading */
+.skeleton-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton-thumb {
+  height: 160px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 16px;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 10px;
+}
+
+.skeleton-line.short {
+  width: 50%;
+}
+
+.skeleton-line.medium {
+  width: 75%;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Error State */
+.course-error-card {
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  padding: 48px 24px;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.course-error-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.course-error-card h3 {
+  font-size: 18px;
+  color: #b91c1c;
+  margin: 0 0 6px;
+  font-weight: 800;
+}
+
+.course-error-card p {
+  font-size: 13.5px;
+  color: #64748b;
+  margin: 0 0 18px;
+}
+
+/* Course CTA Banner */
+.courses-bottom-cta {
+  background: linear-gradient(135deg, #072652 0%, #0c57c4 100%);
+  border-radius: 16px;
+  padding: 44px 36px;
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(12, 87, 196, 0.2);
+  margin-top: 48px;
+}
+
+.courses-bottom-cta h2 {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  letter-spacing: -0.3px;
+}
+
+.courses-bottom-cta p {
+  font-size: 15px;
+  color: #e2e8f0;
+  max-width: 600px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
 }
 
 /* Course Curriculum Drawer / Modal */

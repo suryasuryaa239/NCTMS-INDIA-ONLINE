@@ -49,6 +49,7 @@ export default function AppRouter() {
           {/* 2. Public Modules */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:courseId" element={<CoursesPage />} />
           <Route path="/admission" element={<AdmissionPage />} />
           <Route path="/admission/status" element={<AdmissionPage />} />
           <Route path="/verify" element={<VerificationPage />} />
