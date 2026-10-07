@@ -1,6 +1,9 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import App from './App';
+
+// Public Pages
 import CoursesPage from './pages/CoursesPage';
 import AdmissionPage from './pages/AdmissionPage';
 import VerificationPage from './pages/VerificationPage';
@@ -9,27 +12,48 @@ import InstitutionsPage from './pages/InstitutionsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import ContactPage from './pages/ContactPage';
 
+// Student ERP Pages
+import StudentDashboard from './pages/student/StudentDashboard';
+import StudentProfile from './pages/student/StudentProfile';
+import StudentClasses from './pages/student/StudentClasses';
+import StudentExamCenter from './pages/student/StudentExamCenter';
+import StudentExamRoom from './pages/student/StudentExamRoom';
+import StudentResults from './pages/student/StudentResults';
+import StudentFees from './pages/student/StudentFees';
+
 export default function AppRouter() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* 1. Landing Page (100% Preserved) */}
-        <Route path="/" element={<App />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* 1. Landing Page (100% Preserved) */}
+          <Route path="/" element={<App />} />
 
-        {/* 2. Public Modules */}
-        <Route path="/courses" element={<CoursesPage />} />
-        <Route path="/admission" element={<AdmissionPage />} />
-        <Route path="/admission/status" element={<AdmissionPage />} />
-        <Route path="/verify" element={<VerificationPage />} />
-        <Route path="/verify/:rollNo" element={<VerificationPage />} />
-        <Route path="/downloads" element={<DownloadsPage />} />
-        <Route path="/institutions" element={<InstitutionsPage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
+          {/* 2. Public Modules */}
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/admission" element={<AdmissionPage />} />
+          <Route path="/admission/status" element={<AdmissionPage />} />
+          <Route path="/verify" element={<VerificationPage />} />
+          <Route path="/verify/:rollNo" element={<VerificationPage />} />
+          <Route path="/downloads" element={<DownloadsPage />} />
+          <Route path="/institutions" element={<InstitutionsPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
-        {/* Fallback to Home */}
-        <Route path="*" element={<App />} />
-      </Routes>
-    </BrowserRouter>
+          {/* 3. Student ERP Portal */}
+          <Route path="/student" element={<Navigate to="/student/dashboard" replace />} />
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/student/profile" element={<StudentProfile />} />
+          <Route path="/student/classes" element={<StudentClasses />} />
+          <Route path="/student/exam" element={<StudentExamCenter />} />
+          <Route path="/student/exam/take" element={<StudentExamRoom />} />
+          <Route path="/student/results" element={<StudentResults />} />
+          <Route path="/student/fees" element={<StudentFees />} />
+
+          {/* Fallback */}
+          <Route path="*" element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

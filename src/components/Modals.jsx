@@ -131,6 +131,9 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 e.preventDefault();
                 showToast(`Welcome! Logged in as ${loginTab.toUpperCase()} (${loginUsername || 'NCTMS-USER'})`);
                 onClose();
+                if (loginTab === 'student') {
+                  window.location.href = '/student/dashboard';
+                }
               }} 
               className="modal-form"
             >
@@ -291,6 +294,11 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 </div>
               </div>
             </div>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+              <Link to="/student/classes" className="btn-primary full-btn" onClick={onClose}>
+                📺 Open Full Online Classroom & LMS Portal &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       )}
@@ -337,6 +345,11 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 </button>
               </div>
             </div>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+              <Link to="/student/exam" className="btn-primary full-btn" onClick={onClose}>
+                ✍️ Open Online Examination Center & Live Test Room &rarr;
+              </Link>
+            </div>
           </div>
         </div>
       )}
@@ -377,6 +390,11 @@ export default function Modals({ activeModal, onClose, showToast }) {
               <button type="button" className="erp-link-btn" onClick={() => handleDownload('NCTMS_Marksheet.pdf')}>
                 📜 Online Mark Sheet & Provisional Certificate
               </button>
+            </div>
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
+              <Link to="/student/dashboard" className="btn-primary full-btn" onClick={onClose}>
+                🚀 Open Full Student ERP Dashboard &rarr;
+              </Link>
             </div>
           </div>
         </div>
