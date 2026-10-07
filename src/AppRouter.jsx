@@ -6,6 +6,7 @@ import App from './App';
 // Public Pages
 import AboutPage from './pages/AboutPage';
 import CoursesPage from './pages/CoursesPage';
+import CourseDetailsPage from './pages/CourseDetailsPage';
 import AdmissionPage from './pages/AdmissionPage';
 import VerificationPage from './pages/VerificationPage';
 import DownloadsPage from './pages/DownloadsPage';
@@ -49,7 +50,7 @@ export default function AppRouter() {
           {/* 2. Public Modules */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:courseId" element={<CoursesPage />} />
+          <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
           <Route path="/admission" element={<AdmissionPage />} />
           <Route path="/admission/status" element={<AdmissionPage />} />
           <Route path="/verify" element={<VerificationPage />} />

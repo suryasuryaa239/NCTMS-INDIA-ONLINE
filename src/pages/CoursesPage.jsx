@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import PublicLayout from '../components/layout/PublicLayout';
 import { COURSES_DATA } from '../data/coursesData';
 
 export default function CoursesPage() {
-  const { courseId } = useParams();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   // Search & Filter States
@@ -20,20 +18,11 @@ export default function CoursesPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Derived active course from route param
-  const activeCourseModal = courseId
-    ? COURSES_DATA.find((c) => c.id === courseId) || null
-    : null;
-
   // FAQ Accordion State
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
   const toggleFaq = (idx) => {
     setOpenFaqIndex((prev) => (prev === idx ? -1 : idx));
-  };
-
-  const handleCloseModal = () => {
-    navigate('/courses');
   };
 
   const handleClearFilters = () => {
@@ -399,16 +388,13 @@ export default function CoursesPage() {
 
                   {/* 5. Course Actions: View Details & Apply Now */}
                   <div className="course-card-actions">
-                    <button
-                      type="button"
+                    <Link
+                      to={`/courses/${c.id}`}
                       className="btn-secondary"
-                      onClick={() => {
-                        navigate(`/courses/${c.id}`);
-                      }}
                       aria-label={`View details and curriculum for ${c.title}`}
                     >
                       View Details
-                    </button>
+                    </Link>
                     <Link
                       to={`/admission?course=${c.id}`}
                       className="btn-primary"
@@ -509,110 +495,6 @@ export default function CoursesPage() {
 
         </div>
       </section>
-
-      {/* 5. COURSE DETAILS MODAL (/courses/:courseId) */}
-      {activeCourseModal && (
-        <div className="modal-backdrop" onClick={handleCloseModal} role="dialog" aria-modal="true" aria-labelledby="modal-course-title">
-          <div className="modal-box large-modal" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close-btn"
-              onClick={handleCloseModal}
-              aria-label="Close course details"
-            >
-              &times;
-            </button>
-
-            <div className="modal-header">
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <span className="course-code-tag">{activeCourseModal.code}</span>
-                <span className="course-level-badge">{activeCourseModal.level}</span>
-              </div>
-              <h2 id="modal-course-title" style={{ fontSize: '20px', fontWeight: 800, color: '#0b326b', marginTop: '10px', marginBottom: '4px' }}>
-                {activeCourseModal.title}
-              </h2>
-              <p className="modal-desc" style={{ fontSize: '13px', color: '#64748b' }}>
-                {activeCourseModal.category} &bull; {activeCourseModal.duration} &bull; {activeCourseModal.mode}
-              </p>
-            </div>
-
-            <div className="curriculum-modal-content">
-              {/* Program Description */}
-              <div>
-                <h3 style={{ fontSize: '14px', color: '#0b326b', marginBottom: '6px', fontWeight: 700 }}>Program Overview:</h3>
-                <p style={{ fontSize: '13.5px', color: '#334155', lineHeight: 1.6, margin: 0 }}>
-                  {activeCourseModal.description}
-                </p>
-              </div>
-
-              {/* Highlights */}
-              <div>
-                <h3 style={{ fontSize: '14px', color: '#0b326b', marginBottom: '8px', fontWeight: 700 }}>Program Highlights:</h3>
-                <ul style={{ paddingLeft: '20px', fontSize: '13px', color: '#334155', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  {activeCourseModal.highlights.map((h, i) => (
-                    <li key={i} style={{ listStyleType: 'disc' }}>{h}</li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Detailed Semester Curriculum */}
-              <div>
-                <h3 style={{ fontSize: '14px', color: '#0b326b', marginBottom: '10px', fontWeight: 700 }}>Curriculum &amp; Syllabus Modules:</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {activeCourseModal.semesters.map((sem, sIdx) => (
-                    <div key={sIdx} className="curriculum-sem-block">
-                      <h4>
-                        <span>📚</span> {sem.sem}
-                      </h4>
-                      <ul className="curriculum-subjects-list">
-                        {sem.subjects.map((sub, subIdx) => (
-                          <li key={subIdx}>
-                            <span className="bullet">&bull;</span>
-                            <span>{sub}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Career Opportunities */}
-              <div>
-                <h3 style={{ fontSize: '14px', color: '#0b326b', marginBottom: '8px', fontWeight: 700 }}>Career Opportunities:</h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                  {activeCourseModal.careerOpportunities.map((career, cIdx) => (
-                    <span key={cIdx} style={{ background: '#e0f2fe', color: '#0369a1', padding: '5px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: 600 }}>
-                      {career}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '12px', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #e2e8f0', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  style={{ flex: 1, padding: '10px 16px' }}
-                  onClick={() => alert(`Official syllabus PDF downloaded for ${activeCourseModal.title}`)}
-                >
-                  📥 Download Syllabus PDF
-                </button>
-                <Link
-                  to={`/admission?course=${activeCourseModal.id}`}
-                  className="btn-primary"
-                  style={{ flex: 1.2, textAlign: 'center', padding: '10px 16px' }}
-                  onClick={handleCloseModal}
-                >
-                  Apply Online &rarr;
-                </Link>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      )}
-
     </PublicLayout>
   );
 }
