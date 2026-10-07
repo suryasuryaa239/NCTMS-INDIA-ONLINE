@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import App from './App';
 
 // Public Pages
+import AboutPage from './pages/AboutPage';
 import CoursesPage from './pages/CoursesPage';
 import AdmissionPage from './pages/AdmissionPage';
 import VerificationPage from './pages/VerificationPage';
@@ -46,6 +47,7 @@ export default function AppRouter() {
           <Route path="/" element={<App />} />
 
           {/* 2. Public Modules */}
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/admission" element={<AdmissionPage />} />
           <Route path="/admission/status" element={<AdmissionPage />} />

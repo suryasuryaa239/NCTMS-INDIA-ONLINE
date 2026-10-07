@@ -6,6 +6,7 @@ export default function PublicNavbar() {
 
   const navItems = [
     { title: 'Home', path: '/', isHome: true },
+    { title: 'About NCTMS', path: '/about' },
     { title: 'Courses', path: '/courses' },
     { title: 'Affiliated Institutions', path: '/institutions' },
     { title: 'Online Admission', path: '/admission' },
