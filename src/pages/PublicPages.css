@@ -2581,5 +2581,185 @@
   }
 }
 
+/* ==========================================================================
+   ONLINE ADMISSION WIZARD ENHANCEMENTS (STEP 6)
+   ========================================================================== */
+.field-error-msg {
+  color: #dc2626;
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-top: 4px;
+  display: block;
+}
 
+.input-has-error {
+  border-color: #ef4444 !important;
+  background-color: #fef2f2 !important;
+}
 
+.input-has-error:focus {
+  border-color: #dc2626 !important;
+  outline-color: #dc2626 !important;
+}
+
+/* Document Upload Items */
+.doc-upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.doc-upload-box {
+  background: #f8fafc;
+  border: 2px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.doc-upload-box.has-file {
+  border-color: #22c55e;
+  border-style: solid;
+  background: #f0fdf4;
+}
+
+.doc-upload-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.doc-upload-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0b326b;
+  margin: 0;
+}
+
+.doc-file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+}
+
+.doc-file-name {
+  font-size: 12px;
+  color: #166534;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
+}
+
+.doc-remove-btn {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.doc-remove-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Review Section Cards */
+.review-section-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.review-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 8px;
+}
+
+.review-section-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0b326b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.review-edit-btn {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #0c57c4;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.review-edit-btn:hover {
+  background: #0c57c4;
+  color: #ffffff;
+}
+
+.review-data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px 16px;
+  font-size: 13px;
+}
+
+.review-item label {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.review-item span {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* 6-step indicator responsiveness */
+@media (max-width: 768px) {
+  .wizard-steps {
+    overflow-x: auto;
+    padding-bottom: 10px;
+    justify-content: flex-start;
+    gap: 14px;
+    scrollbar-width: thin;
+  }
+  .wizard-steps::before {
+    display: none;
+  }
+  .doc-upload-grid {
+    grid-template-columns: 1fr;
+  }
+  .wizard-grid {
+    grid-template-columns: 1fr;
+  }
+}
