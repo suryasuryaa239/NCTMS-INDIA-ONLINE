@@ -206,8 +206,41 @@ export const CERTIFICATES_DATA = {
     ],
     totalMax: 400,
     totalObtained: 307
+  },
+  'NCTMS2023REV01': {
+    rollNo: 'NCTMS2023REV01',
+    enrollmentNo: 'ENR-2023-TN-0099',
+    studentName: 'S. Rajesh Kumar',
+    fatherName: 'M. Shanmugam',
+    dateOfBirth: '15-May-2000',
+    courseName: 'Diploma in Electrical & Electronics Engineering',
+    courseCode: 'DEEE-104',
+    department: 'Vocational Technical Trade',
+    affiliatedCenter: 'Disaffiliated Center, Salem (TN-088)',
+    centerCode: 'NCTMS-TN-088',
+    academicYear: '2022 - 2023',
+    examinationMonthYear: 'December 2023',
+    issueDate: '10-Jan-2024',
+    certificateNo: 'NCTMS/TN/CERT/2023/REVOKED',
+    overallGrade: 'Revoked',
+    percentage: '0.0%',
+    cgpa: '0.00',
+    status: 'Revoked / Cancelled by Council Order',
+    revocationDate: '14-Mar-2024',
+    revocationReason: 'Credential permanently invalidated pursuant to Council Order NCTMS/VIG/2024/09 following institutional disaffiliation and falsified attendance records.',
+    marks: [],
+    totalMax: 0,
+    totalObtained: 0
   }
 };
+
+export const CERTIFICATE_TYPES = [
+  'All Certificate Types',
+  'Post Graduate Diploma Certificate',
+  'Diploma in Engineering Certificate',
+  'Certificate in Paramedical Technology',
+  'Consolidated Mark Statement'
+];
 
 export const EXAMINATION_SESSIONS = [
   { id: 'all', title: 'All Academic Examination Sessions' },

@@ -60,6 +60,7 @@ export default function AppRouter() {
           <Route path="/admission/status" element={<AdmissionPage />} />
           <Route path="/verify" element={<VerificationPage />} />
           <Route path="/verify/:rollNo" element={<VerificationPage />} />
+          <Route path="/certificate-verification" element={<VerificationPage />} />
           <Route path="/downloads" element={<DownloadsPage />} />
           <Route path="/institutions" element={<InstitutionsPage />} />
           <Route path="/institutions/:institutionId" element={<InstitutionDetailsPage />} />
