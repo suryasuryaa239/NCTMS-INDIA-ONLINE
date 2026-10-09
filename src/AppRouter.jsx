@@ -17,6 +17,7 @@ import ContactPage from './pages/ContactPage';
 import OnlineClassesPage from './pages/OnlineClassesPage';
 import OnlineExaminationPage from './pages/OnlineExaminationPage';
 import OnlinePaymentPage from './pages/OnlinePaymentPage';
+import ResultsPage from './pages/ResultsPage';
 
 // Student ERP Pages
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -66,6 +67,8 @@ export default function AppRouter() {
           <Route path="/online-examination" element={<OnlineExaminationPage />} />
           <Route path="/online-payment" element={<OnlinePaymentPage />} />
           <Route path="/payment" element={<OnlinePaymentPage />} />
+          <Route path="/results" element={<ResultsPage />} />
+          <Route path="/examination-results" element={<ResultsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/contact" element={<ContactPage />} />
 

@@ -114,5 +114,106 @@ export const CERTIFICATES_DATA = {
     ],
     totalMax: 500,
     totalObtained: 448
+  },
+  'NCTMS2026CS1093': {
+    rollNo: 'NCTMS2026CS1093',
+    enrollmentNo: 'ENR-2025-TN-9813',
+    studentName: 'K. Divyabharathi',
+    fatherName: 'M. Krishnamurthy',
+    dateOfBirth: '18-Dec-2002',
+    courseName: 'Diploma in Computer Science & Engineering',
+    courseCode: 'DCS-101',
+    department: 'Computer Science & Information Technology',
+    affiliatedCenter: 'National Academy of Technical & Computer Science, Chennai (TN-104)',
+    centerCode: 'NCTMS-TN-104',
+    academicYear: '2025 - 2026',
+    examinationMonthYear: 'September 2026',
+    issueDate: '04-Oct-2026',
+    certificateNo: 'NCTMS/TN/CERT/2026/9922',
+    overallGrade: 'First Class',
+    percentage: '83.4%',
+    cgpa: '8.34',
+    status: 'Verified & Digitally Signed',
+    marks: [
+      { code: 'DCS101', name: 'Computer Fundamentals & C Language', maxMarks: 100, passMarks: 40, marksObtained: 85, grade: 'A+' },
+      { code: 'DCS102', name: 'Digital Logic & Circuit Principles', maxMarks: 100, passMarks: 40, marksObtained: 80, grade: 'A' },
+      { code: 'DCS103', name: 'Operating Systems & Linux Shell', maxMarks: 100, passMarks: 40, marksObtained: 84, grade: 'A+' },
+      { code: 'DCS104', name: 'Object Oriented Programming (Java)', maxMarks: 100, passMarks: 40, marksObtained: 82, grade: 'A' },
+      { code: 'DCS105', name: 'Practical Lab & Project Demonstration', maxMarks: 100, passMarks: 40, marksObtained: 86, grade: 'A+' },
+      { code: 'DCS106', name: 'Database Management Systems Lab', maxMarks: 100, passMarks: 40, marksObtained: 85, grade: 'A+' },
+      { code: 'DCS107', name: 'Technical Seminar & Viva Voce', maxMarks: 100, passMarks: 40, marksObtained: 82, grade: 'A' }
+    ],
+    totalMax: 700,
+    totalObtained: 584
+  },
+  'NCTMS2026CS1094': {
+    rollNo: 'NCTMS2026CS1094',
+    enrollmentNo: 'ENR-2025-TN-9814',
+    studentName: 'Mohammed Ashiq',
+    fatherName: 'A. Rahim',
+    dateOfBirth: '09-Jan-2001',
+    courseName: 'Diploma in Computer Science & Engineering',
+    courseCode: 'DCS-101',
+    department: 'Computer Science & Information Technology',
+    affiliatedCenter: 'National Academy of Technical & Computer Science, Chennai (TN-104)',
+    centerCode: 'NCTMS-TN-104',
+    academicYear: '2025 - 2026',
+    examinationMonthYear: 'September 2026',
+    issueDate: 'Pending Release',
+    certificateNo: 'Pending Signature',
+    overallGrade: 'First Class',
+    percentage: '80.0%',
+    cgpa: '8.00',
+    status: 'Ready for Publication',
+    publicationStatus: 'Under Final Council Review / Ready for Publication',
+    marks: [
+      { code: 'DCS101', name: 'Computer Fundamentals & C Language', maxMarks: 100, passMarks: 40, marksObtained: 82, grade: 'A' },
+      { code: 'DCS102', name: 'Digital Logic & Circuit Principles', maxMarks: 100, passMarks: 40, marksObtained: 78, grade: 'A' },
+      { code: 'DCS103', name: 'Operating Systems & Linux Shell', maxMarks: 100, passMarks: 40, marksObtained: 80, grade: 'A' },
+      { code: 'DCS104', name: 'Object Oriented Programming (Java)', maxMarks: 100, passMarks: 40, marksObtained: 79, grade: 'A' },
+      { code: 'DCS105', name: 'Practical Lab & Project Demonstration', maxMarks: 100, passMarks: 40, marksObtained: 81, grade: 'A' },
+      { code: 'DCS106', name: 'Database Management Systems Lab', maxMarks: 100, passMarks: 40, marksObtained: 80, grade: 'A' },
+      { code: 'DCS107', name: 'Technical Seminar & Viva Voce', maxMarks: 100, passMarks: 40, marksObtained: 80, grade: 'A' }
+    ],
+    totalMax: 700,
+    totalObtained: 560
+  },
+  'NCTMS2026ML3042': {
+    rollNo: 'NCTMS2026ML3042',
+    enrollmentNo: 'ENR-2025-KL-4091',
+    studentName: 'Sneha Mohan',
+    fatherName: 'K. Mohan',
+    dateOfBirth: '12-Jul-2003',
+    courseName: 'Certificate in Medical Lab Technology',
+    courseCode: 'CMLT-301',
+    department: 'Healthcare & Paramedical',
+    affiliatedCenter: 'St. Jude Healthcare, Kochi (KL-308)',
+    centerCode: 'NCTMS-KL-308',
+    academicYear: '2025 - 2026',
+    examinationMonthYear: 'September 2026',
+    issueDate: 'Pending Audit',
+    certificateNo: 'Pending Scrutiny',
+    overallGrade: 'First Class',
+    percentage: '76.8%',
+    cgpa: '7.68',
+    status: 'Draft / Internal Scrutiny',
+    publicationStatus: 'Evaluation Under Internal Scrutiny',
+    marks: [
+      { code: 'MLT101', name: 'Anatomy, Physiology & Medical Basics', maxMarks: 100, passMarks: 40, marksObtained: 76, grade: 'B+' },
+      { code: 'MLT102', name: 'Clinical Hematology & Immunohematology', maxMarks: 100, passMarks: 40, marksObtained: 78, grade: 'A' },
+      { code: 'MLT103', name: 'Clinical Biochemistry & Instrumentation', maxMarks: 100, passMarks: 40, marksObtained: 75, grade: 'B+' },
+      { code: 'MLT104', name: 'Diagnostic Microbiology & Histopathology', maxMarks: 100, passMarks: 40, marksObtained: 78, grade: 'A' }
+    ],
+    totalMax: 400,
+    totalObtained: 307
   }
 };
+
+export const EXAMINATION_SESSIONS = [
+  { id: 'all', title: 'All Academic Examination Sessions' },
+  { id: 'September 2026', title: 'September 2026 Term-End Examination', year: '2025 - 2026' },
+  { id: 'August 2026', title: 'August 2026 Executive Term Examination', year: '2025 - 2026' },
+  { id: 'June 2025', title: 'June 2025 Annual Examination', year: '2024 - 2025' },
+  { id: 'May 2025', title: 'May 2025 Paramedical Allied Examination', year: '2024 - 2025' }
+];
+

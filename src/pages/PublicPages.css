@@ -4107,10 +4107,13 @@
     visibility: hidden;
   }
   .printable-receipt-canvas,
-  .printable-receipt-canvas * {
+  .printable-receipt-canvas *,
+  .scorecard-canvas,
+  .scorecard-canvas * {
     visibility: visible;
   }
-  .printable-receipt-canvas {
+  .printable-receipt-canvas,
+  .scorecard-canvas {
     position: absolute;
     left: 0;
     top: 0;
@@ -4118,9 +4121,317 @@
     margin: 0;
     padding: 20px;
     border: none;
+    box-shadow: none;
   }
   .no-print {
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   EXAMINATION RESULTS PORTAL (STEP 11)
+   ========================================================================== */
+.auth-student-hint-card {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.results-search-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(11, 61, 131, 0.04);
+  margin-bottom: 24px;
+}
+
+.results-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.results-form-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr;
+  gap: 16px;
+}
+
+@media (max-width: 868px) {
+  .results-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.results-sample-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.results-sample-chip {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.results-sample-chip:hover {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #0c57c4;
+}
+
+.results-status-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 36px 20px;
+  text-align: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(11, 61, 131, 0.04);
+}
+
+.results-error-icon {
+  width: 58px;
+  height: 58px;
+  background: #fee2e2;
+  color: #dc2626;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 12px;
+}
+
+.results-scorecard-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(11, 61, 131, 0.06);
+  margin-bottom: 24px;
+}
+
+.scorecard-canvas {
+  background: #ffffff;
+  border: 2px solid #0b326b;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.scorecard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid #0b326b;
+  padding-bottom: 12px;
+}
+
+.scorecard-seal-box {
+  width: 72px;
+  height: 72px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #0c57c4;
+  text-align: center;
+  line-height: 1.25;
+  background: #f8fafc;
+}
+
+.scorecard-title-bar {
+  background: #0b326b;
+  color: #ffffff;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  margin: 14px 0;
+}
+
+.scorecard-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 14px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .scorecard-meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scorecard-meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-lbl {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.meta-val {
+  font-size: 13px;
+  color: #1e293b;
+}
+
+.scorecard-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.scorecard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.scorecard-table th {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 8px 10px;
+  font-size: 11.5px;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.scorecard-table td {
+  border: 1px solid #cbd5e1;
+  padding: 9px 10px;
+}
+
+.scorecard-table tr:hover {
+  background: #f8fafc;
+}
+
+.grade-pill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.grade-pill.grade-o {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+}
+
+.grade-pill.grade-aplus,
+.grade-pill.grade-a {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #93c5fd;
+}
+
+.grade-pill.grade-bplus,
+.grade-pill.grade-b {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde047;
+}
+
+.scorecard-summary-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 12px 18px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.summary-metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-metric span {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.summary-metric strong {
+  font-size: 15px;
+  color: #0b326b;
+  margin-top: 2px;
+}
+
+.scorecard-footer-signatures {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 14px;
+}
+
+.results-idle-banner {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 44px 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(11, 61, 131, 0.04);
+}
+
+.results-support-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 868px) {
+  .results-support-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.results-support-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(11, 61, 131, 0.03);
+}
+
 

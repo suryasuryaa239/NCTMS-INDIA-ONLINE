@@ -12,7 +12,8 @@ export default function PublicNavbar() {
     { title: 'Online Admission', path: '/admission' },
     { title: 'Applications & Downloads', path: '/downloads' },
     { title: 'Online Payment', path: '/online-payment' },
-    { title: 'Results & Verification', path: '/verify' },
+    { title: 'Examination Results', path: '/results' },
+    { title: 'Certificate Verification', path: '/verify' },
     { title: 'News & Notifications', path: '/notifications' },
     { title: 'Contact', path: '/contact' },
   ];

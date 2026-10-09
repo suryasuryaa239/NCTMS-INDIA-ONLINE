@@ -598,9 +598,12 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 </button>
               </div>
             </div>
-            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', textAlign: 'center' }}>
-              <Link to="/verify" className="btn-primary full-btn" onClick={onClose}>
-                🛡️ Open Official Verification Registry & QR Scanner &rarr;
+            <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #e2e8f0', display: 'flex', gap: '8px' }}>
+              <Link to="/results" className="btn-primary" style={{ flex: 1, textAlign: 'center' }} onClick={onClose}>
+                🎓 Open Examination Results Portal &rarr;
+              </Link>
+              <Link to="/verify" className="btn-secondary" style={{ flex: 1, textAlign: 'center' }} onClick={onClose}>
+                🛡️ Verification Registry &rarr;
               </Link>
             </div>
 
