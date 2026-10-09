@@ -11,6 +11,7 @@ import AdmissionPage from './pages/AdmissionPage';
 import VerificationPage from './pages/VerificationPage';
 import DownloadsPage from './pages/DownloadsPage';
 import InstitutionsPage from './pages/InstitutionsPage';
+import InstitutionDetailsPage from './pages/InstitutionDetailsPage';
 import NotificationsPage from './pages/NotificationsPage';
 import ContactPage from './pages/ContactPage';
 
@@ -57,6 +58,7 @@ export default function AppRouter() {
           <Route path="/verify/:rollNo" element={<VerificationPage />} />
           <Route path="/downloads" element={<DownloadsPage />} />
           <Route path="/institutions" element={<InstitutionsPage />} />
+          <Route path="/institutions/:institutionId" element={<InstitutionDetailsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
