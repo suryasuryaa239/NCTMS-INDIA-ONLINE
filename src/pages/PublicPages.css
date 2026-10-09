@@ -2763,3 +2763,269 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   ONLINE CLASSES / DIGITAL LEARNING CENTER (STEP 7)
+   ========================================================================== */
+.classes-gate-card {
+  max-width: 580px;
+  margin: 40px auto;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 44px 32px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(11, 50, 107, 0.08);
+}
+
+.classes-gate-icon {
+  width: 72px;
+  height: 72px;
+  background: #eff6ff;
+  color: #0c57c4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin: 0 auto 18px;
+  border: 2px solid #bfdbfe;
+}
+
+.classes-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.class-stat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.class-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(11, 61, 131, 0.08);
+}
+
+.class-stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #0c57c4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.class-stat-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0b326b;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+
+.class-stat-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Learning Tabs & Filters */
+.classes-tabs-bar {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.classes-tab-btn {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.classes-tab-btn:hover {
+  color: #0c57c4;
+}
+
+.classes-tab-btn.active {
+  color: #0c57c4;
+  border-bottom-color: #0c57c4;
+  background: rgba(12, 87, 196, 0.04);
+}
+
+/* Active Video Player Box */
+.lecture-video-player-wrap {
+  background: #0b132b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.lecture-video-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lecture-video-screen iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.lecture-video-banner {
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Recorded Lessons Grid */
+.recorded-lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.lesson-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s;
+}
+
+.lesson-card:hover {
+  border-color: #93c5fd;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(11, 61, 131, 0.08);
+}
+
+.lesson-card-thumb {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.lesson-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+  transition: transform 0.3s;
+}
+
+.lesson-card:hover .lesson-card-thumb img {
+  transform: scale(1.04);
+}
+
+.lesson-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.lesson-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b326b;
+  margin: 6px 0 8px;
+  line-height: 1.35;
+}
+
+/* Timetable styling */
+.timetable-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.timetable-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.timetable-row:last-child {
+  border-bottom: none;
+}
+
+/* Study Materials Items */
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.material-item-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  transition: all 0.2s;
+}
+
+.material-item-card:hover {
+  border-color: #0c57c4;
+  box-shadow: 0 4px 14px rgba(12, 87, 196, 0.08);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .classes-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .classes-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .recorded-lessons-grid,
+  .materials-grid {
+    grid-template-columns: 1fr;
+  }
+}
