@@ -16,6 +16,7 @@ import NotificationsPage from './pages/NotificationsPage';
 import ContactPage from './pages/ContactPage';
 import OnlineClassesPage from './pages/OnlineClassesPage';
 import OnlineExaminationPage from './pages/OnlineExaminationPage';
+import OnlinePaymentPage from './pages/OnlinePaymentPage';
 
 // Student ERP Pages
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -63,6 +64,8 @@ export default function AppRouter() {
           <Route path="/institutions/:institutionId" element={<InstitutionDetailsPage />} />
           <Route path="/online-classes" element={<OnlineClassesPage />} />
           <Route path="/online-examination" element={<OnlineExaminationPage />} />
+          <Route path="/online-payment" element={<OnlinePaymentPage />} />
+          <Route path="/payment" element={<OnlinePaymentPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
           <Route path="/contact" element={<ContactPage />} />
 

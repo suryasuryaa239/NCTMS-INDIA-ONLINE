@@ -536,6 +536,14 @@ export default function Modals({ activeModal, onClose, showToast }) {
                 </select>
               </div>
               <button type="submit" className="btn-primary full-btn">Proceed to Secure Gateway &rarr;</button>
+              <Link 
+                to="/online-payment" 
+                onClick={onClose} 
+                className="btn-secondary full-btn" 
+                style={{ marginTop: '10px', textAlign: 'center', display: 'block' }}
+              >
+                💳 Open Dedicated Online Payment Portal &rarr;
+              </Link>
             </form>
           </div>
         </div>
