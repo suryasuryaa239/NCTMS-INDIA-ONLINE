@@ -17,7 +17,7 @@ import { CERTIFICATES_DATA } from '../data/certificatesData.js';
  */
 export async function verifyCertificate({ query, _certType = 'All Certificate Types', _issueYear = 'all' }) {
   // Artificial network roundtrip for verification
-  await new Promise((resolve) => setTimeout(resolve, 600));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   if (!query || !query.trim()) {
     return {
@@ -27,6 +27,24 @@ export async function verifyCertificate({ query, _certType = 'All Certificate Ty
   }
 
   const cleanQuery = query.trim().toUpperCase();
+
+  // Test simulation for service outage
+  if (cleanQuery === 'SIMULATE_OFFLINE' || cleanQuery === 'SERVICE_DOWN') {
+    return {
+      status: 'UNAVAILABLE',
+      message: 'Central Academic Registry is temporarily undergoing scheduled maintenance. Verification service is currently unavailable.'
+    };
+  }
+
+  // Sanitize and validate against suspicious characters / malformed query
+  const isValidSyntax = /^[A-Z0-9/\-_ ]{4,40}$/i.test(cleanQuery);
+  if (!isValidSyntax) {
+    return {
+      status: 'INVALID_CERTIFICATE',
+      query: cleanQuery,
+      message: 'The entered identifier has an invalid certificate format. Authentic NCTMS credentials contain only alphanumeric characters and standard council delimiters.'
+    };
+  }
 
   // Search across CERTIFICATES_DATA values
   const records = Object.values(CERTIFICATES_DATA);
@@ -41,7 +59,7 @@ export async function verifyCertificate({ query, _certType = 'All Certificate Ty
     return {
       status: 'NOT_FOUND',
       query: cleanQuery,
-      message: `No active or verified certificate record was located in the National Academic Registry for identifier "${query}". Please verify the serial number or contact the Central Examination Division.`
+      message: `No active or verified certificate record was located in the National Academic Registry for identifier "${cleanQuery}". Please verify the serial number or contact the Central Examination Division.`
     };
   }
 

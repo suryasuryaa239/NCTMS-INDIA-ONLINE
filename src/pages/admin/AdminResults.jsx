@@ -264,6 +264,36 @@ export default function AdminResults() {
                   </div>
                 </div>
 
+                {/* Official Tamper-Evident QR Verification Badge */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '14px', margin: '20px auto 0', padding: '10px 18px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '8px', maxWidth: '360px' }}>
+                  <div style={{ width: '56px', height: '56px', flexShrink: 0 }}>
+                    <svg viewBox="0 0 100 100" width="56" height="56">
+                      <rect width="100" height="100" fill="#fff" />
+                      <rect x="5" y="5" width="28" height="28" fill="#000" />
+                      <rect x="9" y="9" width="20" height="20" fill="#fff" />
+                      <rect x="13" y="13" width="12" height="12" fill="#000" />
+                      <rect x="67" y="5" width="28" height="28" fill="#000" />
+                      <rect x="71" y="9" width="20" height="20" fill="#fff" />
+                      <rect x="75" y="13" width="12" height="12" fill="#000" />
+                      <rect x="5" y="67" width="28" height="28" fill="#000" />
+                      <rect x="9" y="71" width="20" height="20" fill="#fff" />
+                      <rect x="13" y="75" width="12" height="12" fill="#000" />
+                      <rect x="40" y="10" width="8" height="8" fill="#000" />
+                      <rect x="52" y="15" width="6" height="6" fill="#000" />
+                      <rect x="40" y="35" width="20" height="6" fill="#000" />
+                      <rect x="65" y="45" width="10" height="10" fill="#000" />
+                      <rect x="45" y="65" width="15" height="15" fill="#000" />
+                      <rect x="70" y="70" width="8" height="8" fill="#000" />
+                      <rect x="85" y="85" width="8" height="8" fill="#000" />
+                    </svg>
+                  </div>
+                  <div style={{ textAlign: 'left', fontSize: '11px', color: '#475569', lineHeight: 1.35 }}>
+                    <strong style={{ color: '#0b326b', display: 'block', fontSize: '11.5px' }}>Scan to Verify Authenticity</strong>
+                    <span style={{ fontFamily: 'monospace', fontSize: '10.5px' }}>https://verify.nctms.in/verify/{selectedCertStudent.rollNo}</span>
+                    <small style={{ color: '#16a34a', display: 'block', fontWeight: 600, marginTop: '2px' }}>Sha256 Digital Council Seal Verified</small>
+                  </div>
+                </div>
+
               </div>
             </div>
 

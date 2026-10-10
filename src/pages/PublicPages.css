@@ -4437,6 +4437,40 @@
 /* ==========================================================================
    CERTIFICATE & QR VERIFICATION PORTAL (STEP 12)
    ========================================================================== */
+/* Instructions & Guide Cards */
+.verification-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.verification-guide-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  box-shadow: 0 2px 6px rgba(11, 61, 131, 0.02);
+}
+
+.verification-step-badge {
+  background: #eff6ff;
+  color: var(--primary-blue);
+  font-weight: 800;
+  font-size: 13px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid #bfdbfe;
+}
+
 .verification-method-tabs {
   display: flex;
   gap: 10px;

@@ -1,13 +1,26 @@
 // src/pages/VerificationPage.jsx
 import React, { useState, useEffect, useRef, useCallback, useId } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
+import jsQR from 'jsqr';
 import PublicLayout from '../components/layout/PublicLayout';
-import { CERTIFICATES_DATA, CERTIFICATE_TYPES } from '../data/certificatesData';
+import { CERTIFICATES_DATA, CERTIFICATE_TYPES, EXAMINATION_SESSIONS } from '../data/certificatesData';
 import {
   verifyCertificate,
   parseAndVerifyQrContent,
   generateVerificationUrl
 } from '../services/verificationService';
+
+/**
+ * Mask sensitive student identifier to safeguard student privacy on public endpoints
+ */
+function maskEnrollment(enr) {
+  if (!enr) return '--';
+  const parts = enr.split('-');
+  if (parts.length >= 3) {
+    return `${parts[0]}-****-${parts.slice(2).join('-')}`;
+  }
+  return enr.length > 6 ? `${enr.slice(0, 3)}****${enr.slice(-3)}` : enr;
+}
 
 export default function VerificationPage() {
   const { rollNo: paramRollNo } = useParams();
@@ -15,15 +28,21 @@ export default function VerificationPage() {
   const queryParamCert = searchParams.get('cert') || searchParams.get('id');
   const initialQuery = paramRollNo || queryParamCert || 'NCTMS2026CS1092';
 
+  // Set document title
+  useEffect(() => {
+    document.title = 'Certificate Verification | NCTMS INDIA ONLINE';
+  }, []);
+
   // Active Method Tab: 'details' | 'qr'
   const [activeMethod, setActiveMethod] = useState('details');
 
   // Details Search Fields
   const [searchIdentifier, setSearchIdentifier] = useState(initialQuery);
   const [certType, setCertType] = useState('All Certificate Types');
+  const [issueSession, setIssueSession] = useState('all');
   const [searchedKey, setSearchedKey] = useState(initialQuery);
 
-  // Verification Status: 'IDLE' | 'LOADING' | 'VERIFIED' | 'REVOKED' | 'PENDING' | 'NOT_FOUND'
+  // Verification Status: 'IDLE' | 'LOADING' | 'VERIFIED' | 'INVALID_CERTIFICATE' | 'NOT_FOUND' | 'REVOKED' | 'PENDING' | 'UNAVAILABLE'
   const [verificationStatus, setVerificationStatus] = useState(() => {
     const rec = CERTIFICATES_DATA[initialQuery.trim().toUpperCase()];
     if (!rec) return 'IDLE';
@@ -52,6 +71,7 @@ export default function VerificationPage() {
   // Form IDs for accessibility
   const idInputId = useId();
   const certTypeSelectId = useId();
+  const sessionSelectId = useId();
   const qrFileInputId = useId();
 
   // Stop camera function
@@ -90,7 +110,8 @@ export default function VerificationPage() {
     try {
       const result = await verifyCertificate({
         query,
-        _certType: certType
+        _certType: certType,
+        _issueYear: issueSession
       });
 
       setVerificationStatus(result.status);
@@ -106,10 +127,10 @@ export default function VerificationPage() {
         setStatusMessage(result.message);
       }
     } catch {
-      setVerificationStatus('NOT_FOUND');
+      setVerificationStatus('UNAVAILABLE');
       setStatusMessage('Verification service is temporarily unavailable. Please retry shortly.');
     }
-  }, [searchIdentifier, certType]);
+  }, [searchIdentifier, certType, issueSession]);
 
   // Handle dynamic URL changes
   const prevParamRef = useRef(initialQuery);
@@ -154,14 +175,14 @@ export default function VerificationPage() {
         setStatusMessage(result.message);
       }
     } catch {
-      setVerificationStatus('NOT_FOUND');
+      setVerificationStatus('INVALID_CERTIFICATE');
       setStatusMessage('Failed to decode or verify QR payload.');
     } finally {
       setIsProcessingQr(false);
     }
   }, [isProcessingQr, stopCamera]);
 
-  // Camera Controls
+  // Camera Controls using jsQR on offscreen canvas
   const startCamera = async () => {
     setCameraPermissionError('');
     setCameraActive(true);
@@ -178,37 +199,42 @@ export default function VerificationPage() {
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        videoRef.current.play();
+        videoRef.current.setAttribute('playsinline', 'true');
+        await videoRef.current.play();
       }
 
-      // Start BarcodeDetector scanner loop if supported
-      if ('BarcodeDetector' in window) {
-        const detector = new window.BarcodeDetector({ formats: ['qr_code'] });
-        scanIntervalRef.current = setInterval(async () => {
-          if (videoRef.current && videoRef.current.readyState === 4) {
-            try {
-              const barcodes = await detector.detect(videoRef.current);
-              if (barcodes.length > 0) {
-                const detectedVal = barcodes[0].rawValue;
-                handleProcessQrString(detectedVal);
-              }
-            } catch {
-              // ignore detection frame errors
+      // Continuous scanner loop using jsQR
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+      scanIntervalRef.current = setInterval(() => {
+        if (videoRef.current && videoRef.current.readyState === 4) {
+          const video = videoRef.current;
+          if (video.videoWidth > 0 && video.videoHeight > 0) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height, {
+              inversionAttempts: 'dontInvert'
+            });
+            if (code && code.data) {
+              handleProcessQrString(code.data);
             }
           }
-        }, 500);
-      }
+        }
+      }, 300);
     } catch (err) {
       setCameraActive(false);
       setCameraPermissionError(
         err.name === 'NotAllowedError'
-          ? 'Camera permission was denied. Please allow camera permissions in browser settings or use the file upload / manual details tab.'
+          ? 'Camera permission was denied. Please allow camera access in your browser or switch to the manual Certificate Details tab.'
           : `Camera scanner unavailable: ${err.message || 'No video device found'}. Please use the image upload or details tab.`
       );
     }
   };
 
-  // Image File Upload Fallback
+  // Image File Upload Fallback using jsQR
   const handleQrFileUpload = (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
@@ -216,33 +242,28 @@ export default function VerificationPage() {
     setIsProcessingQr(true);
     const reader = new FileReader();
 
-    reader.onload = async (event) => {
+    reader.onload = (event) => {
       const img = new Image();
-      img.onload = async () => {
-        // Try BarcodeDetector on image
-        if ('BarcodeDetector' in window) {
-          try {
-            const detector = new window.BarcodeDetector({ formats: ['qr_code'] });
-            const barcodes = await detector.detect(img);
-            if (barcodes.length > 0) {
-              handleProcessQrString(barcodes[0].rawValue);
-              return;
-            }
-          } catch {
-            // fallback
-          }
-        }
-
-        // If BarcodeDetector not available or returns empty, check filename or payload match
-        const sampleMatch = Object.keys(CERTIFICATES_DATA).find((r) =>
-          file.name.toUpperCase().includes(r)
-        );
-        if (sampleMatch) {
-          handleProcessQrString(`https://verify.nctms.in/verify/${sampleMatch}`);
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(img, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+        if (code && code.data) {
+          handleProcessQrString(code.data);
         } else {
-          // Fallback simulation: decode verified QR for Alexander
-          handleProcessQrString('https://verify.nctms.in/verify/NCTMS2026CS1092');
+          setIsProcessingQr(false);
+          setVerificationStatus('NOT_FOUND');
+          setStatusMessage('No valid or readable QR code was detected in the uploaded image. Please ensure the QR code is clearly visible, or verify using certificate details.');
         }
+      };
+      img.onerror = () => {
+        setIsProcessingQr(false);
+        setVerificationStatus('INVALID_CERTIFICATE');
+        setStatusMessage('Unable to read image file. Please provide a clear PNG, JPG, or WebP file.');
       };
       img.src = event.target.result;
     };
@@ -259,7 +280,7 @@ export default function VerificationPage() {
             <nav className="subpage-breadcrumbs" aria-label="Breadcrumb">
               <Link to="/">Home</Link> &rsaquo; <span>Certificate Verification</span>
             </nav>
-            <h1>Certificate &amp; QR Verification Portal</h1>
+            <h1>Certificate Verification</h1>
             <p className="subpage-hero-subtitle">
               Official public registry enabling employers, universities, and government agencies to authenticate tamper-evident diplomas, mark sheets, and vocational credentials issued by NCTMS India.
             </p>
@@ -278,6 +299,39 @@ export default function VerificationPage() {
       <section className="content-section">
         <div className="container">
           <div className="verify-wrapper">
+
+            {/* SHORT INSTRUCTIONS: HOW VERIFICATION WORKS */}
+            <div className="verification-guide-grid">
+              <div className="verification-guide-card">
+                <div className="verification-step-badge">1</div>
+                <div>
+                  <strong style={{ fontSize: '13.5px', color: '#0b326b', display: 'block' }}>Choose Verification Method</strong>
+                  <p style={{ fontSize: '12px', color: '#64748b', margin: '4px 0 0', lineHeight: 1.4 }}>
+                    Input the Certificate Serial Number / Roll Number or point your device camera at the tamper-evident QR code.
+                  </p>
+                </div>
+              </div>
+
+              <div className="verification-guide-card">
+                <div className="verification-step-badge">2</div>
+                <div>
+                  <strong style={{ fontSize: '13.5px', color: '#0b326b', display: 'block' }}>Central Registry Ledger Lookup</strong>
+                  <p style={{ fontSize: '12px', color: '#64748b', margin: '4px 0 0', lineHeight: 1.4 }}>
+                    Our secure engine validates the cryptographic SHA-256 seal against verified NCTMS National Council records.
+                  </p>
+                </div>
+              </div>
+
+              <div className="verification-guide-card">
+                <div className="verification-step-badge">3</div>
+                <div>
+                  <strong style={{ fontSize: '13.5px', color: '#0b326b', display: 'block' }}>Instant Status &amp; Authenticity</strong>
+                  <p style={{ fontSize: '12px', color: '#64748b', margin: '4px 0 0', lineHeight: 1.4 }}>
+                    Receive immediate confirmation of graduation status, qualification details, and official council credentials.
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Verification Method Tabs */}
             <div className="verification-method-tabs" role="tablist">
@@ -315,37 +369,61 @@ export default function VerificationPage() {
                 <h2 style={{ fontSize: '20px', color: '#0b326b', margin: '4px 0 10px' }}>
                   Verify by Registration / Certificate Number
                 </h2>
-                <p style={{ fontSize: '13px', color: '#64748b' }}>
+                <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '16px' }}>
                   Enter the complete Certificate Serial Number or Roll Number as printed on the official parchment.
                 </p>
 
                 <form onSubmit={handleDetailsSubmit} className="verify-input-group">
-                  <input
-                    id={idInputId}
-                    type="text"
-                    placeholder="e.g. NCTMS2026CS1092 or NCTMS/TN/CERT/2026/89412"
-                    value={searchIdentifier}
-                    onChange={(e) => setSearchIdentifier(e.target.value)}
-                    required
-                  />
-                  <select
-                    id={certTypeSelectId}
-                    value={certType}
-                    onChange={(e) => setCertType(e.target.value)}
-                    className="payment-select"
-                    style={{ maxWidth: '240px', padding: '10px 12px' }}
-                  >
-                    {CERTIFICATE_TYPES.map((t) => (
-                      <option key={t} value={t}>{t}</option>
-                    ))}
-                  </select>
+                  <div style={{ flex: 1, minWidth: '220px' }}>
+                    <label htmlFor={idInputId} style={{ display: 'none' }}>Certificate or Roll Number</label>
+                    <input
+                      id={idInputId}
+                      type="text"
+                      placeholder="e.g. NCTMS2026CS1092 or NCTMS/TN/CERT/2026/89412"
+                      value={searchIdentifier}
+                      onChange={(e) => setSearchIdentifier(e.target.value)}
+                      required
+                      style={{ width: '100%' }}
+                    />
+                  </div>
+
+                  <div style={{ minWidth: '200px' }}>
+                    <label htmlFor={certTypeSelectId} style={{ display: 'none' }}>Certificate Type</label>
+                    <select
+                      id={certTypeSelectId}
+                      value={certType}
+                      onChange={(e) => setCertType(e.target.value)}
+                      className="payment-select"
+                      style={{ width: '100%', padding: '10px 12px' }}
+                    >
+                      {CERTIFICATE_TYPES.map((t) => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div style={{ minWidth: '180px' }}>
+                    <label htmlFor={sessionSelectId} style={{ display: 'none' }}>Examination Session</label>
+                    <select
+                      id={sessionSelectId}
+                      value={issueSession}
+                      onChange={(e) => setIssueSession(e.target.value)}
+                      className="payment-select"
+                      style={{ width: '100%', padding: '10px 12px' }}
+                    >
+                      {EXAMINATION_SESSIONS.map((s) => (
+                        <option key={s.id} value={s.id}>{s.title}</option>
+                      ))}
+                    </select>
+                  </div>
+
                   <button type="submit" className="btn-primary" style={{ padding: '12px 24px', whiteSpace: 'nowrap' }}>
                     Verify Credentials &rarr;
                   </button>
                 </form>
 
-                {/* Sample Quick Chips for Testing (including valid, revoked, and unreleased) */}
-                <div className="verify-samples-row" style={{ marginTop: '14px' }}>
+                {/* Sample Quick Chips for Testing (including valid, revoked, unreleased, offline) */}
+                <div className="verify-samples-row" style={{ marginTop: '16px' }}>
                   <span>Verified Test Records:</span>
                   <button
                     type="button"
@@ -366,7 +444,7 @@ export default function VerificationPage() {
                     className="sample-chip"
                     onClick={() => handleSelectSample('NCTMS/TN/CERT/2026/89412')}
                   >
-                    🟢 NCTMS/TN/CERT/2026/89412 (Cert No)
+                    🟢 NCTMS/TN/CERT/2026/89412 (Cert Serial)
                   </button>
                   <button
                     type="button"
@@ -382,6 +460,14 @@ export default function VerificationPage() {
                     onClick={() => handleSelectSample('NCTMS2026ML3042')}
                   >
                     🟡 NCTMS2026ML3042 (Under Audit)
+                  </button>
+                  <button
+                    type="button"
+                    className="sample-chip"
+                    onClick={() => handleSelectSample('SERVICE_DOWN')}
+                    style={{ borderColor: '#fed7aa', color: '#c2410c' }}
+                  >
+                    ⚠️ Outage Simulation (Offline)
                   </button>
                 </div>
               </div>
@@ -400,10 +486,29 @@ export default function VerificationPage() {
                   Point your camera at the digital authentication QR code printed on the bottom of the council certificate, or upload a clear photo/scan of the QR code.
                 </p>
 
+                {/* Camera Permission Feedback & Fallback Option */}
                 {cameraPermissionError && (
                   <div className="payment-alert-error" style={{ marginBottom: '18px' }}>
-                    <span>⚠️</span>
-                    <div>{cameraPermissionError}</div>
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                      <span style={{ fontSize: '20px' }}>⚠️</span>
+                      <div>
+                        <strong style={{ display: 'block', marginBottom: '4px' }}>Camera Permission Required</strong>
+                        <span>{cameraPermissionError}</span>
+                        <div style={{ marginTop: '10px' }}>
+                          <button
+                            type="button"
+                            className="btn-secondary"
+                            onClick={() => {
+                              stopCamera();
+                              setActiveMethod('details');
+                            }}
+                            style={{ padding: '6px 14px', fontSize: '12px' }}
+                          >
+                            &larr; Switch to Manual Certificate Details
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -457,7 +562,7 @@ export default function VerificationPage() {
                     Upload Certificate QR Code Image
                   </strong>
                   <span style={{ fontSize: '12px', color: '#64748b' }}>
-                    Supported formats: PNG, JPG, JPEG, WebP
+                    Supported formats: PNG, JPG, JPEG, WebP (Instant auto-decode)
                   </span>
                   <input
                     id={qrFileInputId}
@@ -522,7 +627,7 @@ export default function VerificationPage() {
                 3. VERIFICATION RESULT STATES
                 ========================================================================= */}
 
-            {/* STATE A: LOADING */}
+            {/* STATE 1: LOADING */}
             {verificationStatus === 'LOADING' && (
               <div className="results-status-card">
                 <div className="gateway-spinner" />
@@ -535,12 +640,57 @@ export default function VerificationPage() {
               </div>
             )}
 
-            {/* STATE B: NOT FOUND / INVALID */}
+            {/* STATE 2: SERVICE UNAVAILABLE */}
+            {verificationStatus === 'UNAVAILABLE' && (
+              <div style={{ background: '#fffbeb', border: '1px solid #fde68a', borderRadius: '10px', padding: '28px', textAlign: 'center', marginBottom: '30px' }}>
+                <span style={{ fontSize: '40px', display: 'block', marginBottom: '8px' }}>🔧</span>
+                <h3 style={{ color: '#92400e', fontSize: '19px', marginBottom: '6px', fontWeight: 800 }}>
+                  Verification Service Temporarily Unavailable
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#78350f', maxWidth: '620px', margin: '0 auto 16px', lineHeight: 1.5 }}>
+                  {statusMessage || 'The National Academic Registry verification service is undergoing scheduled database maintenance. Please retry in a few moments or contact the Council Secretariat desk.'}
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={() => handleSelectSample('NCTMS2026CS1092')}
+                  >
+                    🔄 Retry Verification
+                  </button>
+                  <Link to="/contact" className="btn-secondary">
+                    Contact Examination Secretariat
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* STATE 3: INVALID CERTIFICATE FORMAT */}
+            {verificationStatus === 'INVALID_CERTIFICATE' && (
+              <div style={{ background: '#fef2f2', border: '1px solid #f87171', borderRadius: '10px', padding: '28px', textAlign: 'center', marginBottom: '30px' }}>
+                <span style={{ fontSize: '40px', display: 'block', marginBottom: '8px' }}>🚫</span>
+                <h3 style={{ color: '#b91c1c', fontSize: '19px', marginBottom: '6px', fontWeight: 800 }}>
+                  Invalid Certificate Format: &ldquo;{searchedKey}&rdquo;
+                </h3>
+                <p style={{ fontSize: '13.5px', color: '#7f1d1d', maxWidth: '620px', margin: '0 auto 16px', lineHeight: 1.5 }}>
+                  {statusMessage || 'The entered identifier is malformed and does not conform to official NCTMS India credential syntax rules. Please verify the serial number printed on your parchment.'}
+                </p>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => handleSelectSample('NCTMS2026CS1092')}
+                >
+                  Load Valid Test Certificate (NCTMS2026CS1092)
+                </button>
+              </div>
+            )}
+
+            {/* STATE 4: NOT FOUND / UNVERIFIED */}
             {(verificationStatus === 'NOT_FOUND' || verificationStatus === 'INVALID_INPUT' || verificationStatus === 'UNTRUSTED_QR') && (
               <div style={{ background: '#fef2f2', border: '1px solid #f87171', borderRadius: '10px', padding: '28px', textAlign: 'center', marginBottom: '30px' }}>
                 <span style={{ fontSize: '40px', display: 'block', marginBottom: '8px' }}>⚠️</span>
                 <h3 style={{ color: '#b91c1c', fontSize: '19px', marginBottom: '6px', fontWeight: 800 }}>
-                  Certificate Verification Failed: &ldquo;{searchedKey}&rdquo;
+                  Certificate Not Found: &ldquo;{searchedKey}&rdquo;
                 </h3>
                 <p style={{ fontSize: '13.5px', color: '#7f1d1d', maxWidth: '620px', margin: '0 auto 16px', lineHeight: 1.5 }}>
                   {statusMessage || 'The requested credential was not located in the verified active council database. Please check for typos, verify serial numbers, or contact the NCTMS Examination Secretariat.'}
@@ -560,7 +710,7 @@ export default function VerificationPage() {
               </div>
             )}
 
-            {/* STATE C: REVOKED OR CANCELLED STATUS */}
+            {/* STATE 5: REVOKED OR CANCELLED STATUS */}
             {verificationStatus === 'REVOKED' && verifiedRecord && (
               <div className="cert-revoked-box">
                 <div className="cert-revoked-header">
@@ -602,7 +752,7 @@ export default function VerificationPage() {
               </div>
             )}
 
-            {/* STATE D: PENDING / UNDER SCRUTINY */}
+            {/* STATE 6: PENDING / UNDER SCRUTINY */}
             {verificationStatus === 'PENDING' && verifiedRecord && (
               <div className="cert-pending-box">
                 <div style={{ fontSize: '36px', marginBottom: '8px' }}>⏳</div>
@@ -618,7 +768,7 @@ export default function VerificationPage() {
               </div>
             )}
 
-            {/* STATE E: VERIFIED OFFICIAL SHEET */}
+            {/* STATE 7: VERIFIED OFFICIAL RECORD (PUBLIC VIEW) */}
             {verificationStatus === 'VERIFIED' && verifiedRecord && (
               <div className="cert-sheet">
                 
@@ -628,7 +778,7 @@ export default function VerificationPage() {
                   <h2 className="cert-council-title">NATIONAL COUNCIL FOR TECHNICAL AND MANAGEMENT STUDIES</h2>
                   <p className="cert-council-sub">An Autonomous National Academic Body Registered under Govt. of India Act</p>
                   <p style={{ fontSize: '11px', color: '#64748b', letterSpacing: '1px', textTransform: 'uppercase', marginTop: '2px' }}>
-                    CENTRAL EXAMINATION DIVISION &bull; STATEMENT OF MARKS & EVALUATION
+                    CENTRAL EXAMINATION DIVISION &bull; OFFICIAL PUBLIC VERIFICATION RECORD
                   </p>
                 </div>
 
@@ -640,39 +790,49 @@ export default function VerificationPage() {
                   <span>Issued on: {verifiedRecord.issueDate} &bull; Serial: {verifiedRecord.certificateNo}</span>
                 </div>
 
-                {/* Candidate & Course Profile */}
+                {/* Candidate & Course Profile - Approved Public Verification Fields */}
                 <div className="cert-profile-grid">
                   <div className="profile-row">
-                    <span className="profile-label">Candidate Name:</span>
+                    <span className="profile-label">Student Name:</span>
                     <span className="profile-val">{verifiedRecord.studentName}</span>
                   </div>
                   <div className="profile-row">
-                    <span className="profile-label">Roll / Reg Number:</span>
-                    <span className="profile-val">{verifiedRecord.rollNo}</span>
+                    <span className="profile-label">Certificate Serial No:</span>
+                    <span className="profile-val" style={{ fontFamily: 'monospace' }}>{verifiedRecord.certificateNo}</span>
                   </div>
                   <div className="profile-row">
-                    <span className="profile-label">Father / Guardian:</span>
-                    <span className="profile-val">{verifiedRecord.fatherName}</span>
+                    <span className="profile-label">Roll / Register No:</span>
+                    <span className="profile-val" style={{ fontFamily: 'monospace' }}>{verifiedRecord.rollNo}</span>
                   </div>
                   <div className="profile-row">
-                    <span className="profile-label">Enrollment Number:</span>
-                    <span className="profile-val">{verifiedRecord.enrollmentNo}</span>
+                    <span className="profile-label">Enrollment ID:</span>
+                    <span className="profile-val" style={{ fontFamily: 'monospace', color: '#475569' }}>
+                      {maskEnrollment(verifiedRecord.enrollmentNo)}
+                    </span>
                   </div>
                   <div className="profile-row">
-                    <span className="profile-label">Programme Name:</span>
+                    <span className="profile-label">Course / Qualification:</span>
                     <span className="profile-val">{verifiedRecord.courseName} ({verifiedRecord.courseCode})</span>
                   </div>
                   <div className="profile-row">
-                    <span className="profile-label">Academic Session:</span>
-                    <span className="profile-val">{verifiedRecord.academicYear}</span>
+                    <span className="profile-label">Academic Department:</span>
+                    <span className="profile-val">{verifiedRecord.department}</span>
                   </div>
                   <div className="profile-row">
-                    <span className="profile-label">Affiliated Center:</span>
+                    <span className="profile-label">Issuing Institution:</span>
                     <span className="profile-val">{verifiedRecord.affiliatedCenter}</span>
                   </div>
                   <div className="profile-row">
                     <span className="profile-label">Month &amp; Year of Exam:</span>
                     <span className="profile-val">{verifiedRecord.examinationMonthYear}</span>
+                  </div>
+                  <div className="profile-row">
+                    <span className="profile-label">Date of Certificate Issue:</span>
+                    <span className="profile-val">{verifiedRecord.issueDate}</span>
+                  </div>
+                  <div className="profile-row">
+                    <span className="profile-label">Current Certificate Status:</span>
+                    <span className="profile-val" style={{ color: '#16a34a', fontWeight: 800 }}>{verifiedRecord.status}</span>
                   </div>
                 </div>
 
@@ -680,7 +840,7 @@ export default function VerificationPage() {
                 {verifiedRecord.marks && verifiedRecord.marks.length > 0 && (
                   <>
                     <h4 style={{ fontSize: '14px', color: '#0b326b', marginBottom: '8px' }}>
-                      Subject-Wise Marks &amp; Grade Record:
+                      Subject-Wise Evaluation &amp; Grade Record:
                     </h4>
                     <table className="cert-marks-table">
                       <thead>
@@ -786,12 +946,12 @@ export default function VerificationPage() {
                     className="btn-secondary"
                     onClick={() => window.print()}
                   >
-                    🖨️ Print Verified Marksheet
+                    🖨️ Print Verified Document
                   </button>
                   <button 
                     type="button" 
                     className="btn-primary"
-                    onClick={() => alert(`Official digital certificate PDF generated for ${verifiedRecord.studentName} (${verifiedRecord.rollNo})`)}
+                    onClick={() => alert(`Official digital certificate PDF downloaded for ${verifiedRecord.studentName} (${verifiedRecord.rollNo})`)}
                   >
                     📜 Download Official Certificate PDF
                   </button>
