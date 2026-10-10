@@ -5070,6 +5070,308 @@
   }
 }
 
+/* ==========================================================================
+   CONTACT & FAQ PAGE (STEP 14)
+   ========================================================================== */
+
+/* Top Info Cards */
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.contact-info-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(11, 61, 131, 0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-info-card:hover {
+  transform: translateY(-2px);
+  border-color: #93c5fd;
+  box-shadow: 0 8px 24px rgba(11, 61, 131, 0.09);
+}
+
+.contact-card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.contact-card-title {
+  font-size: 18px;
+  color: #0b326b;
+  font-weight: 800;
+  margin: 0 0 6px;
+}
+
+.contact-card-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 14px;
+  line-height: 1.45;
+}
+
+.contact-address-text {
+  font-style: normal;
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.contact-card-action {
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0c57c4;
+  text-decoration: none;
+}
+
+.contact-card-action:hover {
+  text-decoration: underline;
+}
+
+.contact-channel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.contact-phone-link, .contact-email-link {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0c57c4;
+  text-decoration: none;
+}
+
+.contact-phone-link:hover, .contact-email-link:hover {
+  text-decoration: underline;
+}
+
+.contact-hours-badge {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-top: auto;
+}
+
+/* Main Grid: Form + Sidebar */
+.contact-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px;
+  align-items: start;
+}
+
+.contact-form-panel {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 16px rgba(11, 61, 131, 0.04);
+}
+
+.contact-alert-box {
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.contact-alert-box.warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.contact-alert-box.success {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.contact-field-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.contact-input, .contact-select, .contact-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: #ffffff;
+}
+
+.contact-input:focus, .contact-select:focus, .contact-textarea:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(12, 87, 196, 0.12);
+}
+
+.contact-input.has-error, .contact-select.has-error, .contact-textarea.has-error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.field-error-msg {
+  color: #dc2626;
+  font-size: 11.5px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Sidebar in Contact Page */
+.contact-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.contact-side-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 2px 8px rgba(11, 61, 131, 0.03);
+}
+
+.side-card-title {
+  font-size: 15px;
+  color: #0b326b;
+  font-weight: 800;
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.regional-hub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.regional-hub-item {
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.4;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.regional-hub-item strong {
+  color: #0b326b;
+  display: block;
+}
+
+/* FAQ Enhancements */
+.faq-search-input {
+  width: 100%;
+  padding: 12px 42px 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0f172a;
+  outline: none;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-search-input:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(12, 87, 196, 0.12);
+}
+
+.faq-category-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+
+.faq-category-pill {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.faq-category-pill:hover {
+  color: #0b326b;
+  border-color: #93c5fd;
+  background: #f8fafc;
+}
+
+.faq-category-pill.active {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(12, 87, 196, 0.25);
+}
+
+.faq-cat-badge {
+  background: #eff6ff;
+  color: var(--primary-blue);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Responsive queries */
+@media (max-width: 860px) {
+  .contact-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-panel {
+    padding: 22px 18px;
+  }
+}
+
+
 
 
 
