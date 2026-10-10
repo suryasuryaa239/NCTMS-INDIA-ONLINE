@@ -13,6 +13,7 @@ import DownloadsPage from './pages/DownloadsPage';
 import InstitutionsPage from './pages/InstitutionsPage';
 import InstitutionDetailsPage from './pages/InstitutionDetailsPage';
 import NotificationsPage from './pages/NotificationsPage';
+import NotificationDetailsPage from './pages/NotificationDetailsPage';
 import ContactPage from './pages/ContactPage';
 import OnlineClassesPage from './pages/OnlineClassesPage';
 import OnlineExaminationPage from './pages/OnlineExaminationPage';
@@ -71,6 +72,9 @@ export default function AppRouter() {
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/examination-results" element={<ResultsPage />} />
           <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/notifications/:id" element={<NotificationDetailsPage />} />
+          <Route path="/news" element={<NotificationsPage />} />
+          <Route path="/news/:id" element={<NotificationDetailsPage />} />
           <Route path="/contact" element={<ContactPage />} />
 
           {/* 3. Student ERP Portal */}
